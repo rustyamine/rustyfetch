@@ -32,5 +32,39 @@ fn main() {
     let mins = (secs / 60.0) as u64;
     
 println!("uptime: {}h {}m", mins / 60, mins % 60);
+
+
+    
+    let meminfo = fs::read_to_string("/proc/meminfo").unwrap();
+ 
+     let mut total: u64 = 0;
+    let mut free: u64 = 0;
+
+     for line in meminfo.lines() {
+      if line.starts_with("MemTotal") {
+             let parts: Vec<&str> = line.split_whitespace().collect();
+              total = parts[1].parse().unwrap();
+        }
+      if line.starts_with("MemAvailable") {
+
+
+            let parts: Vec<&str> = line.split_whitespace().collect();
+
+            free = parts[1].parse().unwrap();
+
+        }
+
+    }
+
+
+    let used = total - free;
+
+
+    println!("memory: {}MiB / {}MiB", used / 1024, total / 1024);
+
+   
+    let shell = env::var("SHELL").unwrap();
+   
+ println!("shell: {}", shell);
 }
 
