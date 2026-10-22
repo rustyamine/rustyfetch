@@ -24,6 +24,13 @@ fn main() {
         }
 
     }
+    let kernel = fs::read_to_string("/proc/sys/kernel/osrelease").unwrap();
+    println!("kernel: {}", kernel.trim());
 
+    let up = fs::read_to_string("/proc/uptime").unwrap();
+    let secs: f64 = up.split_whitespace().next().unwrap().parse().unwrap();
+    let mins = (secs / 60.0) as u64;
+    
+println!("uptime: {}h {}m", mins / 60, mins % 60);
 }
 
