@@ -65,6 +65,22 @@ println!("uptime: {}h {}m", mins / 60, mins % 60);
    
     let shell = env::var("SHELL").unwrap();
    
- println!("shell: {}", shell);
+println!("shell: {}", shell);
+
+ let cpuinfo = fs::read_to_string("/proc/cpuinfo").unwrap();
+  
+ 
+ 
+    for line in cpuinfo.lines() {
+ 
+        if line.starts_with("model name") {
+            let parts: Vec<&str> = line.split(':').collect();
+
+            println!("cpu: {}", parts[1].trim());
+             break;
+     
+   }
+    }
+
 }
 
